@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- MainActivity Strings -->
+    <string name="app_name">MVP Application</string>
+    <string name="main_activity_hello_text">Hello!!!</string>
+    <string name="main_activity_search_button_text">Search</string>
+
+
+</resources>
