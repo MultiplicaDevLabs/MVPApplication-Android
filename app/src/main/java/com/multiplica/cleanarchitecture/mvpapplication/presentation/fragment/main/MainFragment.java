@@ -6,13 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.multiplica.cleanarchitecture.mvpapplication.R;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.entity.EarthquakeEntity;
 import com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.AttachFragment;
 import com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.main.presenter.IMainPresenter;
 import com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.main.presenter.MainPresenterImpl;
-import com.multiplica.cleanarchitecture.mvpapplication.presentation.view.adapter.MainRecycler;
+import com.multiplica.cleanarchitecture.mvpapplication.presentation.view.adapter.ListRecycler;
 
 import java.util.ArrayList;
 
@@ -23,14 +24,13 @@ import butterknife.ButterKnife;
  * Created by user on 26/06/18.
  */
 
-public class MainFragment extends AttachFragment implements IMainPresenter.View{
+public class MainFragment extends AttachFragment implements IMainPresenter.View, View.OnClickListener{
 
     private View rootView;
 
-    @BindView(R.id.main_recycler_earthquakes)
-    RecyclerView recyclerView;
+    @BindView(R.id.download_data_button)
+    Button downloadDataButton;
 
-    private MainRecycler adapter;
 
     private MainPresenterImpl presenter;
 
@@ -54,23 +54,18 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View{
     }
 
     private void initResources(){
-        LinearLayoutManager llmGral = new LinearLayoutManager(getActivity());
-        llmGral.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(llmGral);
+        downloadDataButton.setOnClickListener(this);
     }
 
     private void initPresenter(){
         presenter = new MainPresenterImpl();
         presenter.setView(this);
-        presenter.initialize();
-        presenter.onGetEarthquakes();
+
     }
 
     @Override
     public void initView(ArrayList<EarthquakeEntity> earthquakes) {
-        adapter = new MainRecycler(getActivity(),earthquakes);
-        recyclerView.setAdapter(adapter);
+
     }
 
     @Override
@@ -81,5 +76,10 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View{
     @Override
     public void updateView() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        callback.onFragmentChanged(ListFragment.newInstance(),R.id.container);
     }
 }

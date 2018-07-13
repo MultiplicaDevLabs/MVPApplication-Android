@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.multiplica.cleanarchitecture.mvpapplication.R;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.base.BaseHolder;
+import com.multiplica.cleanarchitecture.mvpapplication.domain.callback.IOnItemRecyclerClickListener;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.entity.EarthquakeEntity;
 
 import java.util.ArrayList;
@@ -21,13 +22,13 @@ import butterknife.ButterKnife;
  * Created by user on 27/06/18.
  */
 
-public class MainRecycler extends RecyclerView.Adapter<BaseHolder>{
+public class ListRecycler extends RecyclerView.Adapter<BaseHolder>{
 
     private Context context;
     private ArrayList<EarthquakeEntity> data;
+    private IOnItemRecyclerClickListener listener;
 
-
-    public MainRecycler(Context context, ArrayList<EarthquakeEntity> data) {
+    public ListRecycler(Context context, ArrayList<EarthquakeEntity> data) {
 
         this.context = context;
         this.data = data;
@@ -41,7 +42,7 @@ public class MainRecycler extends RecyclerView.Adapter<BaseHolder>{
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_main_item, parent, false);
 
-        return new MainRecycler.ContentHolder(view);
+        return new ListRecycler.ContentHolder(view);
     }
 
     @Override
@@ -59,6 +60,10 @@ public class MainRecycler extends RecyclerView.Adapter<BaseHolder>{
         return data.size();
     }
 
+    public void setOnItemRecyclerClickListener(
+            IOnItemRecyclerClickListener<EarthquakeEntity> listener) {
+        this.listener = listener;
+    }
 
     protected class ContentHolder extends BaseHolder{
 
@@ -79,7 +84,12 @@ public class MainRecycler extends RecyclerView.Adapter<BaseHolder>{
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-
+                case R.id.earthquake_view_item:
+                    if (listener != null) {
+                        EarthquakeEntity entity = data.get(getAdapterPosition());
+                        listener.onItemRecyclerClick(v, getAdapterPosition(), entity);
+                    }
+                default:
             }
         }
     }

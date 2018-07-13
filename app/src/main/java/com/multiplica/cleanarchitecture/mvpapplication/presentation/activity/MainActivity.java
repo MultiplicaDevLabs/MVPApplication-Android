@@ -30,7 +30,12 @@ public class MainActivity extends AppCompatActivity implements IOnFragmentChange
 
     @Override
     public void onFragmentChanged(Fragment fragment, int container) {
-
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(container, fragment, fragment.getClass().getName())
+                .addToBackStack(fragment.getClass().getName())
+                .commit();
     }
 
     private void initFragment(){
