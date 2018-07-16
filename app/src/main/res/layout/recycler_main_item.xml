@@ -4,7 +4,7 @@
     android:id="@+id/earthquake_view_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:background="?attr/selectableItemBackground">
 
 
     <LinearLayout
