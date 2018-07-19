@@ -20,6 +20,7 @@ public class MainPresenterImpl extends BasePresenter<IMainPresenter.View> implem
     public void initialize() {
         super.initialize();
         interactor = new MainInteractorImpl();
+        onGetEarthquakes();
     }
 
     @Override

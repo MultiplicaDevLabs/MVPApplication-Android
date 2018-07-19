@@ -59,6 +59,7 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
 
     private void initPresenter(){
         presenter = new MainPresenterImpl();
+        presenter.initialize();
         presenter.setView(this);
 
     }
