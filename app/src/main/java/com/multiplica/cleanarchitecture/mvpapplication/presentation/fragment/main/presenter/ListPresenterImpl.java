@@ -36,4 +36,18 @@ public class ListPresenterImpl extends BasePresenter<IListPresenter.View> implem
 
         });
     }
+
+    @Override
+    public void onGetLocalEarthquakes() {
+        interactor.getLocalEarthquakeList(new BaseResponseList<EarthquakeEntity>() {
+            @Override
+            public void onSuccess(ArrayList<EarthquakeEntity> objList) {
+                if(objList.size()>0){
+                    getView().initView(objList);
+                }else{
+                    getView().initNotAvailableView();
+                }
+            }
+        });
+    }
 }

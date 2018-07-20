@@ -13,6 +13,8 @@ public interface IListPresenter {
 
     void onGetEarthquakes();
 
+    void onGetLocalEarthquakes();
+
     interface View extends BasePresenter.View {
 
         void initView(ArrayList<EarthquakeEntity> earthquakes);

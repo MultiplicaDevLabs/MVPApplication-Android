@@ -2,6 +2,7 @@ package com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.ma
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,12 +39,23 @@ public class ListFragment extends AttachFragment implements IListPresenter.View,
 
     private ListPresenterImpl presenter;
 
-    public static ListFragment newInstance() {
+    private boolean downLoadData;
+    public static final String DOWNLOAD_DATA = "download_data";
+
+    public static ListFragment newInstance(boolean downloadData) {
         ListFragment listFragment = new ListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(DOWNLOAD_DATA,downloadData);
+        listFragment.setArguments(bundle);
         listFragment.setHasOptionsMenu(true);
         return listFragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        downLoadData = getArguments() != null ? getArguments().getBoolean(DOWNLOAD_DATA):false;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +69,8 @@ public class ListFragment extends AttachFragment implements IListPresenter.View,
         return rootView;
     }
 
+
+
     private void initResources(){
         LinearLayoutManager llmGral = new LinearLayoutManager(getActivity());
         llmGral.setOrientation(LinearLayoutManager.VERTICAL);
@@ -68,7 +82,14 @@ public class ListFragment extends AttachFragment implements IListPresenter.View,
         presenter = new ListPresenterImpl();
         presenter.setView(this);
         presenter.initialize();
-        presenter.onGetEarthquakes();
+
+        if(downLoadData){
+            presenter.onGetEarthquakes();
+        }else{
+            presenter.onGetLocalEarthquakes();
+        }
+
+
     }
 
     @Override

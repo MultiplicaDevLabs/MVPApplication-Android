@@ -31,6 +31,9 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
     @BindView(R.id.download_data_button)
     Button downloadDataButton;
 
+    @BindView(R.id.load_data_button)
+    Button loadDataButton;
+
 
     private MainPresenterImpl presenter;
 
@@ -55,6 +58,7 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
 
     private void initResources(){
         downloadDataButton.setOnClickListener(this);
+        loadDataButton.setOnClickListener(this);
     }
 
     private void initPresenter(){
@@ -81,6 +85,18 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
 
     @Override
     public void onClick(View v) {
-        callback.onFragmentChanged(ListFragment.newInstance(),R.id.container);
+
+        switch (v.getId()){
+
+            case R.id.download_data_button:
+                callback.onFragmentChanged(ListFragment.newInstance(true),R.id.container);
+                break;
+
+            case R.id.load_data_button:
+                callback.onFragmentChanged(ListFragment.newInstance(false),R.id.container);
+                break;
+        }
+
+
     }
 }

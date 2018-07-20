@@ -1,11 +1,15 @@
-package com.multiplica.cleanarchitecture.mvpapplication.domain.entity;
+package com.multiplica.cleanarchitecture.mvpapplication.data.model.item;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by user on 27/06/18.
+ * Created by user on 18/07/18.
  */
 
-public class EarthquakeEntity {
+public class EarthquakeRealm extends RealmObject {
 
+    @PrimaryKey
     private int id;
     private String place;
     private long time;
@@ -13,9 +17,13 @@ public class EarthquakeEntity {
     private double latitude;
     private double longitude;
 
-    public String getPlace() {
-        return place;
-    }
+    public static final String ID = "id";
+    public static final String PLACE = "place";
+    public static final String TIME = "time";
+    public static final String TITLE = "title";
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
+
 
     public int getId() {
         return id;
@@ -23,6 +31,10 @@ public class EarthquakeEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPlace() {
+        return place;
     }
 
     public void setPlace(String place) {
