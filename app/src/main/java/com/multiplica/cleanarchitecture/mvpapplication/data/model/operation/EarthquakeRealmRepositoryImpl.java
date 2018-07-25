@@ -1,13 +1,18 @@
 package com.multiplica.cleanarchitecture.mvpapplication.data.model.operation;
 
+import com.multiplica.cleanarchitecture.mvpapplication.Application;
 import com.multiplica.cleanarchitecture.mvpapplication.data.model.RealmConfig;
 import com.multiplica.cleanarchitecture.mvpapplication.data.model.item.EarthquakeRealm;
+import com.multiplica.cleanarchitecture.mvpapplication.data.repository.implementation.EarthquakeDataRepositoryImpl;
 import com.multiplica.cleanarchitecture.mvpapplication.data.repository.mapper.EarthquakeMapper;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.entity.EarthquakeEntity;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.repository.IEarthquakeRepository;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -19,9 +24,17 @@ public class EarthquakeRealmRepositoryImpl implements IEarthquakeRepository{
 
     private EarthquakeMapper mapper = new EarthquakeMapper();
 
+    public EarthquakeRealmRepositoryImpl(){
+        Application.getInstance().getComponents().inject(this);
+
+    }
+
+    @Inject
+    Realm realm;
+
     @Override
     public void create(EarthquakeEntity earthquakeEntity) {
-        Realm realm = RealmConfig.getInstance().getRealm();
+        //Realm realm = RealmConfig.getInstance().getRealm();
 
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(mapper.reverseMap(earthquakeEntity));
@@ -32,7 +45,7 @@ public class EarthquakeRealmRepositoryImpl implements IEarthquakeRepository{
 
     @Override
     public void create(ArrayList<EarthquakeEntity> earthquakeEntities) {
-        Realm realm = RealmConfig.getInstance().getRealm();
+        //Realm realm = RealmConfig.getInstance().getRealm();
 
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(mapper.reverseMap(earthquakeEntities));
@@ -44,7 +57,7 @@ public class EarthquakeRealmRepositoryImpl implements IEarthquakeRepository{
     @Override
     public EarthquakeEntity read(int id) {
 
-        Realm realm = RealmConfig.getInstance().getRealm();
+        //Realm realm = RealmConfig.getInstance().getRealm();
 
         realm.beginTransaction();
         EarthquakeRealm earthquake = realm.where(EarthquakeRealm.class).equalTo(EarthquakeRealm.ID,id).findFirst();
@@ -57,7 +70,7 @@ public class EarthquakeRealmRepositoryImpl implements IEarthquakeRepository{
 
     @Override
     public void upadate(EarthquakeEntity earthquakeEntity) {
-        Realm realm = RealmConfig.getInstance().getRealm();
+        //Realm realm = RealmConfig.getInstance().getRealm();
 
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(mapper.reverseMap(earthquakeEntity));

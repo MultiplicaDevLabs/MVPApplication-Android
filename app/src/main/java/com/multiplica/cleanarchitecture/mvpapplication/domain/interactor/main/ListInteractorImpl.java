@@ -2,25 +2,23 @@ package com.multiplica.cleanarchitecture.mvpapplication.domain.interactor.main;
 
 import android.util.Log;
 
-import com.multiplica.cleanarchitecture.mvpapplication.data.repository.implementation.EarthquakeDataRepositoryImpl;
-import com.multiplica.cleanarchitecture.mvpapplication.data.repository.mapper.EarthquakeMapper;
-import com.multiplica.cleanarchitecture.mvpapplication.data.model.RealmConfig;
+import com.multiplica.cleanarchitecture.mvpapplication.Application;
 import com.multiplica.cleanarchitecture.mvpapplication.data.network.IWebServices;
-import com.multiplica.cleanarchitecture.mvpapplication.data.network.RetrofitClient;
 import com.multiplica.cleanarchitecture.mvpapplication.data.network.response.ResponseQuery;
 import com.multiplica.cleanarchitecture.mvpapplication.data.network.response.ResponseQueryFeature;
+import com.multiplica.cleanarchitecture.mvpapplication.data.repository.implementation.EarthquakeDataRepositoryImpl;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.base.BaseResponseList;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.entity.EarthquakeEntity;
-import com.multiplica.cleanarchitecture.mvpapplication.domain.repository.IEarthquakeRepository;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import io.realm.Realm;
 import retrofit2.Retrofit;
 
 /**
@@ -31,9 +29,16 @@ public class ListInteractorImpl implements IListInteractor {
 
     EarthquakeDataRepositoryImpl repository = EarthquakeDataRepositoryImpl.init();
 
+    @Inject
+    Retrofit retrofit;
+
+    public ListInteractorImpl(){
+        Application.getInstance().getComponents().inject(this);
+    }
+
     @Override
     public void getEarthquakeList(final BaseResponseList<EarthquakeEntity> callback) {
-        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+        //Retrofit retrofit = RetrofitClient.getRetrofitClient();
         Observable<ResponseQuery> request = retrofit.create(IWebServices.class).query("geojson","2018-06-27",
                 "2018-06-28",10);
         request.subscribeOn(Schedulers.io())

@@ -13,6 +13,9 @@ import com.multiplica.cleanarchitecture.mvpapplication.data.network.response.Res
 import com.multiplica.cleanarchitecture.mvpapplication.domain.callback.IOnFragmentChangedListener;
 import com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.main.MainFragment;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,11 +23,13 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements IOnFragmentChangedListener{
 
+    @Inject
+    Retrofit retrofit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initFragment();
     }
 
