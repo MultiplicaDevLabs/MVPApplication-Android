@@ -22,5 +22,9 @@ public interface IListPresenter {
         void initNotAvailableView();
 
         void updateView();
+
+        void showProgressBar();
+
+        void hideProgressBar();
     }
 }

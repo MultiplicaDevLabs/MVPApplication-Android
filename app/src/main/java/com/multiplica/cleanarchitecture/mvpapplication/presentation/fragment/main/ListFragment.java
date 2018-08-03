@@ -10,6 +10,7 @@ import android.util.DebugUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.multiplica.cleanarchitecture.mvpapplication.R;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.callback.IOnItemRecyclerClickListener;
@@ -32,8 +33,16 @@ public class ListFragment extends AttachFragment implements IListPresenter.View,
 
     private View rootView;
 
+    @BindView(R.id.layoutRecycler)
+    View layoutRecycler;
     @BindView(R.id.main_recycler_earthquakes)
     RecyclerView recyclerView;
+
+    @BindView(R.id.layoutProgressBar)
+    View layoutProgessBar;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
 
     private ListRecycler adapter;
 
@@ -94,6 +103,7 @@ public class ListFragment extends AttachFragment implements IListPresenter.View,
 
     @Override
     public void initView(ArrayList<EarthquakeEntity> earthquakes) {
+        layoutRecycler.setVisibility(View.VISIBLE);
         adapter = new ListRecycler(getActivity(),earthquakes);
         adapter.setOnItemRecyclerClickListener(this);
         recyclerView.setAdapter(adapter);
@@ -108,6 +118,18 @@ public class ListFragment extends AttachFragment implements IListPresenter.View,
     @Override
     public void updateView() {
 
+    }
+
+    @Override
+    public void showProgressBar() {
+        layoutProgessBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        layoutProgessBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

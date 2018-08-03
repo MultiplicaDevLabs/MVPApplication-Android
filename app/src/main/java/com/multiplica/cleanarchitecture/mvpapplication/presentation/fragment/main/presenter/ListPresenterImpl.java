@@ -28,12 +28,19 @@ public class ListPresenterImpl extends BasePresenter<IListPresenter.View> implem
             @Override
             public void onSuccess(ArrayList<EarthquakeEntity> objList) {
                 if(objList.size()>0){
+                    getView().hideProgressBar();
                     getView().initView(objList);
                 }else{
+                    getView().hideProgressBar();
                     getView().initNotAvailableView();
                 }
             }
 
+            @Override
+            public void onError(Exception e, String msg) {
+                getView().hideProgressBar();
+                getView().initNotAvailableView();
+            }
         });
     }
 
@@ -43,10 +50,18 @@ public class ListPresenterImpl extends BasePresenter<IListPresenter.View> implem
             @Override
             public void onSuccess(ArrayList<EarthquakeEntity> objList) {
                 if(objList.size()>0){
+                    getView().hideProgressBar();
                     getView().initView(objList);
                 }else{
+                    getView().hideProgressBar();
                     getView().initNotAvailableView();
                 }
+            }
+
+            @Override
+            public void onError(Exception e, String msg) {
+                getView().hideProgressBar();
+                getView().initNotAvailableView();
             }
         });
     }

@@ -73,7 +73,7 @@ public class ListInteractorImpl implements IListInteractor {
                     }
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("FAILUREs: ",e.getMessage());
+                        Log.i("FAILURE: ",e.getMessage());
                         callback.onError(new Exception(),e.getMessage());
                     }
                     @Override

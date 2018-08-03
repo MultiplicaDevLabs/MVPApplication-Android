@@ -1,21 +1,24 @@
 package com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.main;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.multiplica.cleanarchitecture.mvpapplication.R;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.entity.EarthquakeEntity;
 import com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.AttachFragment;
 import com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.main.presenter.IMainPresenter;
 import com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.main.presenter.MainPresenterImpl;
-import com.multiplica.cleanarchitecture.mvpapplication.presentation.view.adapter.ListRecycler;
+import com.multiplica.cleanarchitecture.mvpapplication.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,15 +27,25 @@ import butterknife.ButterKnife;
  * Created by user on 26/06/18.
  */
 
-public class MainFragment extends AttachFragment implements IMainPresenter.View, View.OnClickListener{
+public class MainFragment extends AttachFragment implements IMainPresenter.View, View.OnClickListener,
+        DatePickerDialog.OnDateSetListener{
 
     private View rootView;
+
+    @BindView(R.id.selected_date_text_view)
+    TextView selectedDateTextView;
+
+    @BindView(R.id.select_date_button)
+    Button selectDateButton;
 
     @BindView(R.id.download_data_button)
     Button downloadDataButton;
 
     @BindView(R.id.load_data_button)
     Button loadDataButton;
+
+    private DatePickerDialog.OnDateSetListener dateListener;
+    private Calendar calendar = Calendar.getInstance();
 
 
     private MainPresenterImpl presenter;
@@ -57,8 +70,10 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
     }
 
     private void initResources(){
+        selectDateButton.setOnClickListener(this);
         downloadDataButton.setOnClickListener(this);
         loadDataButton.setOnClickListener(this);
+        dateListener = this;
     }
 
     private void initPresenter(){
@@ -88,6 +103,18 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
 
         switch (v.getId()){
 
+            case R.id.select_date_button:
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        getActivity(),
+                        dateListener,
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+
+                break;
+
             case R.id.download_data_button:
                 callback.onFragmentChanged(ListFragment.newInstance(true),R.id.container);
                 break;
@@ -98,5 +125,12 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
         }
 
 
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        long date = new GregorianCalendar(year, month, dayOfMonth).getTimeInMillis();
+        selectedDateTextView.setText(DateUtils.formatter(date, DateUtils.DATE_LARGE));
+        calendar.setTimeInMillis(date);
     }
 }
