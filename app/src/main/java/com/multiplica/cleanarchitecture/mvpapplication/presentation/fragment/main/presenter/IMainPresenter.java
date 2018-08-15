@@ -13,6 +13,8 @@ public interface IMainPresenter {
 
     void onGetEarthquakes();
 
+    void onSetCalendarDate();
+
     interface View extends BasePresenter.View {
 
         void initView(ArrayList<EarthquakeEntity> earthquakes);
@@ -20,5 +22,7 @@ public interface IMainPresenter {
         void initNotAvailableView();
 
         void updateView();
+
+        void setDateView(String startDate, String endDate);
     }
 }

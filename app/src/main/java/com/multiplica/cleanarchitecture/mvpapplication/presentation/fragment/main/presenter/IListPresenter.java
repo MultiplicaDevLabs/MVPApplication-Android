@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public interface IListPresenter {
 
-    void onGetEarthquakes();
+    void onGetEarthquakes(String startDate, String endDate);
 
     void onGetLocalEarthquakes();
 

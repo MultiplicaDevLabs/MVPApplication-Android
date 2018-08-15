@@ -9,7 +9,7 @@ import com.multiplica.cleanarchitecture.mvpapplication.domain.entity.EarthquakeE
 
 public interface IListInteractor {
 
-    void getEarthquakeList(BaseResponseList<EarthquakeEntity> callback);
+    void getEarthquakeList(String startDate, String endDate, BaseResponseList<EarthquakeEntity> callback);
 
     void getLocalEarthquakeList(BaseResponseList<EarthquakeEntity> callback);
 }

@@ -23,17 +23,25 @@ public class ListPresenterImpl extends BasePresenter<IListPresenter.View> implem
     }
 
     @Override
-    public void onGetEarthquakes() {
-        interactor.getEarthquakeList(new BaseResponseList<EarthquakeEntity>() {
+    public void onGetEarthquakes(String startDate, String endDate) {
+        interactor.getEarthquakeList(startDate, endDate, new BaseResponseList<EarthquakeEntity>() {
             @Override
             public void onSuccess(ArrayList<EarthquakeEntity> objList) {
-                if(objList.size()>0){
-                    getView().hideProgressBar();
-                    getView().initView(objList);
+
+                if(objList!=null){
+                    if(objList.size()>0){
+                        getView().hideProgressBar();
+                        getView().initView(objList);
+                    }else{
+                        getView().hideProgressBar();
+                        getView().initNotAvailableView();
+                    }
                 }else{
                     getView().hideProgressBar();
                     getView().initNotAvailableView();
                 }
+
+
             }
 
             @Override
@@ -49,13 +57,21 @@ public class ListPresenterImpl extends BasePresenter<IListPresenter.View> implem
         interactor.getLocalEarthquakeList(new BaseResponseList<EarthquakeEntity>() {
             @Override
             public void onSuccess(ArrayList<EarthquakeEntity> objList) {
-                if(objList.size()>0){
-                    getView().hideProgressBar();
-                    getView().initView(objList);
+
+                if(objList!=null){
+                    if(objList.size()>0){
+                        getView().hideProgressBar();
+                        getView().initView(objList);
+                    }else{
+                        getView().hideProgressBar();
+                        getView().initNotAvailableView();
+                    }
                 }else{
                     getView().hideProgressBar();
                     getView().initNotAvailableView();
                 }
+
+
             }
 
             @Override

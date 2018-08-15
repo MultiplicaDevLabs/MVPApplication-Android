@@ -30,11 +30,22 @@ public class RealmModule {
         Realm.setDefaultConfiguration(getRealmConfig());
     }
 
-    @Provides
+
     public Realm getRealm() {
-        return Realm.getInstance(getRealmConfig());
+
+        if(realm==null){
+            realm = Realm.getInstance(getRealmConfig());
+        }else if(realm.isClosed()){
+            realm = Realm.getInstance(getRealmConfig());
+        }
+
+        return realm;
     }
 
+    @Provides
+    public RealmModule getRealmModule(){
+        return this;
+    }
 
     private synchronized RealmConfiguration getRealmConfig() {
         if (realmConfig == null)

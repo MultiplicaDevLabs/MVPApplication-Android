@@ -51,6 +51,23 @@ public class ListFragment extends AttachFragment implements IListPresenter.View,
     private boolean downLoadData;
     public static final String DOWNLOAD_DATA = "download_data";
 
+    private String startDate;
+    public static final String START_DATE = "start_date";
+
+    private String endDate;
+    public static final String END_DATE = "end_date";
+
+    public static ListFragment newInstance(boolean downloadData, String startDate, String endDate) {
+        ListFragment listFragment = new ListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(DOWNLOAD_DATA,downloadData);
+        bundle.putString(START_DATE,startDate);
+        bundle.putString(END_DATE,endDate);
+        listFragment.setArguments(bundle);
+        listFragment.setHasOptionsMenu(true);
+        return listFragment;
+    }
+
     public static ListFragment newInstance(boolean downloadData) {
         ListFragment listFragment = new ListFragment();
         Bundle bundle = new Bundle();
@@ -64,6 +81,9 @@ public class ListFragment extends AttachFragment implements IListPresenter.View,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         downLoadData = getArguments() != null ? getArguments().getBoolean(DOWNLOAD_DATA):false;
+        startDate = getArguments() != null ? getArguments().getString(START_DATE):"";
+        endDate = getArguments() != null ? getArguments().getString(END_DATE):"";
+
     }
 
     @Override
@@ -93,7 +113,7 @@ public class ListFragment extends AttachFragment implements IListPresenter.View,
         presenter.initialize();
 
         if(downLoadData){
-            presenter.onGetEarthquakes();
+            presenter.onGetEarthquakes(startDate,endDate);
         }else{
             presenter.onGetLocalEarthquakes();
         }

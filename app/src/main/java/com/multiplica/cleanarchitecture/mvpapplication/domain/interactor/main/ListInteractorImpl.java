@@ -37,10 +37,10 @@ public class ListInteractorImpl implements IListInteractor {
     }
 
     @Override
-    public void getEarthquakeList(final BaseResponseList<EarthquakeEntity> callback) {
+    public void getEarthquakeList(String startDate, String endDate, final BaseResponseList<EarthquakeEntity> callback) {
         //Retrofit retrofit = RetrofitClient.getRetrofitClient();
-        Observable<ResponseQuery> request = retrofit.create(IWebServices.class).query("geojson","2018-06-27",
-                "2018-06-28",10);
+        Observable<ResponseQuery> request = retrofit.create(IWebServices.class).query("geojson",startDate,
+                endDate,15);
         request.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseQuery>() {

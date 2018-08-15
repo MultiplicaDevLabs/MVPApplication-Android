@@ -6,6 +6,7 @@ import com.multiplica.cleanarchitecture.mvpapplication.data.model.item.Earthquak
 import com.multiplica.cleanarchitecture.mvpapplication.data.repository.implementation.EarthquakeDataRepositoryImpl;
 import com.multiplica.cleanarchitecture.mvpapplication.data.repository.mapper.EarthquakeMapper;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.entity.EarthquakeEntity;
+import com.multiplica.cleanarchitecture.mvpapplication.domain.module.RealmModule;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.repository.IEarthquakeRepository;
 
 import java.util.ArrayList;
@@ -26,10 +27,11 @@ public class EarthquakeRealmRepositoryImpl implements IEarthquakeRepository{
 
     public EarthquakeRealmRepositoryImpl(){
         Application.getInstance().getComponents().inject(this);
-
+        realm = realmModule.getRealm();
     }
 
     @Inject
+    RealmModule realmModule;
     Realm realm;
 
     @Override
@@ -86,8 +88,6 @@ public class EarthquakeRealmRepositoryImpl implements IEarthquakeRepository{
 
     @Override
     public ArrayList<EarthquakeEntity> getAll() {
-
-        Realm realm = RealmConfig.getInstance().getRealm();
 
         realm.beginTransaction();
         RealmResults<EarthquakeRealm> earthquakes = realm.where(EarthquakeRealm.class).findAll();

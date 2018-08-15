@@ -1,20 +1,26 @@
 package com.multiplica.cleanarchitecture.mvpapplication.presentation.activity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.multiplica.cleanarchitecture.mvpapplication.R;
 import com.multiplica.cleanarchitecture.mvpapplication.domain.callback.IOnFragmentChangedListener;
-import com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.main.MainFragment;
+import com.multiplica.cleanarchitecture.mvpapplication.presentation.fragment.login.LoginFragment;
 
-public class MainActivity extends AppCompatActivity implements IOnFragmentChangedListener{
+/**
+ * Created by user on 03/08/18.
+ */
+
+public class LoginActivity extends AppCompatActivity implements IOnFragmentChangedListener {
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         initFragment();
     }
 
@@ -30,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements IOnFragmentChange
 
     private void initFragment(){
 
-        Fragment fragment = MainFragment.newInstance();
+        Fragment fragment = LoginFragment.newInstance();
 
         getSupportFragmentManager()
                 .beginTransaction()

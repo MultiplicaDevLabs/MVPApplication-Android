@@ -27,8 +27,7 @@ import butterknife.ButterKnife;
  * Created by user on 26/06/18.
  */
 
-public class MainFragment extends AttachFragment implements IMainPresenter.View, View.OnClickListener,
-        DatePickerDialog.OnDateSetListener{
+public class MainFragment extends AttachFragment implements IMainPresenter.View, View.OnClickListener{
 
     private View rootView;
 
@@ -44,11 +43,10 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
     @BindView(R.id.load_data_button)
     Button loadDataButton;
 
-    private DatePickerDialog.OnDateSetListener dateListener;
-    private Calendar calendar = Calendar.getInstance();
-
-
     private MainPresenterImpl presenter;
+
+    private String startDate;
+    private String endDate;
 
 
     public static MainFragment newInstance() {
@@ -73,13 +71,13 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
         selectDateButton.setOnClickListener(this);
         downloadDataButton.setOnClickListener(this);
         loadDataButton.setOnClickListener(this);
-        dateListener = this;
     }
 
     private void initPresenter(){
         presenter = new MainPresenterImpl();
         presenter.initialize();
         presenter.setView(this);
+        presenter.setActivity(getActivity());
 
     }
 
@@ -99,24 +97,27 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
     }
 
     @Override
+    public void setDateView(String startDate, String endDate) {
+
+        this.startDate = startDate;
+        this.endDate = endDate;
+
+        selectedDateTextView.setText(endDate);
+    }
+
+    @Override
     public void onClick(View v) {
 
         switch (v.getId()){
 
             case R.id.select_date_button:
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        getActivity(),
-                        dateListener,
-                        calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
+                presenter.onSetCalendarDate();
 
                 break;
 
             case R.id.download_data_button:
-                callback.onFragmentChanged(ListFragment.newInstance(true),R.id.container);
+                callback.onFragmentChanged(ListFragment.newInstance(true, startDate, endDate),R.id.container);
                 break;
 
             case R.id.load_data_button:
@@ -127,10 +128,4 @@ public class MainFragment extends AttachFragment implements IMainPresenter.View,
 
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        long date = new GregorianCalendar(year, month, dayOfMonth).getTimeInMillis();
-        selectedDateTextView.setText(DateUtils.formatter(date, DateUtils.DATE_LARGE));
-        calendar.setTimeInMillis(date);
-    }
 }

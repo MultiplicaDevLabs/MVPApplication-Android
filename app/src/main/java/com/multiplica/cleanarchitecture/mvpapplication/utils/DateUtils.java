@@ -13,6 +13,7 @@ import java.util.Locale;
 public class DateUtils {
 
     public static String DATE_LARGE = "dd/MMM/yyyy";
+    public static String DATE_USA = "yyyy-MM-dd";
 
     public static long currentTimeMillis() {
         Calendar calendar = Calendar.getInstance();
